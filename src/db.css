@@ -1,0 +1,204 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Karla, Avenir Next, sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+#header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background-color: #8395a7;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#header #logo {
+    margin: auto 20px;
+}
+
+#header #logo #logo-text {
+    width: 75px;
+    font-weight: bold;
+    text-align: center;
+    color: #feca57;
+    font-size: 22px;
+    padding: 5px 0;
+    border-bottom: 5px solid white;
+}
+
+#header #cur-user {
+    margin: auto 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#header #cur-user #prof-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 100px;
+    background-color: #48dbfb;
+    margin: auto 5px;
+}
+
+#header #cur-user #cur-username {
+    font-size: 15px;
+    margin: auto 5px;
+    font-weight: bold;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+#playground {
+    position: absolute;
+    top: 75px;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow-y: scroll;
+}
+
+.fb-card {
+    width: 350px;
+    height: 365px;
+    margin: 20px;
+    flex-shrink: unset;
+    border-radius: 7px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid lightgray;
+}
+
+.fb-card .fb-details {
+    width: 310px;
+    height: 85%;
+    padding: 0 20px;
+    margin: 0;
+    border-radius: 7px 7px 0 0;
+}
+
+.fb-card .fb-options {
+    width: 100%;
+    height: 15%;
+    background-color: aliceblue;
+    border-radius: 0 0 7px 7px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.fb-card .fb-options button {
+    width: 150px;
+    height: 40px;
+    background: none;
+    color: #576574;
+    font-size: 15px;
+    font-family: Karla, Avenir Next, sans-serif;
+    border-radius: 7px;
+    outline: none;
+    margin: auto 0;
+    cursor: pointer;
+    font-weight: bold;
+    border: 2px solid #576574;
+}
+
+.fb-card .fb-options .fb-done {
+    border: 2px solid #1dd1a1;
+    color: #1dd1a1;
+}
+
+.fb-card .fb-options .fb-delete {
+    border: 2px solid #ee5253;
+    color: #ee5253;
+}
+
+.fb-card .fb-options button:hover {
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.fb-card .fb-details p {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.fb-card .fb-details .fb-topic {
+    border-radius: 100px;
+    width: auto;
+    max-width: 120px;
+    height: 21px;
+    border: 1px solid #ee5253;
+    background-color: rgba(237, 118, 118, 0.3);
+    text-align: center;
+    direction: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.fb-card .fb-details .fb-topic-cat {
+    font-size: 13px;
+    color: #222f3e;
+    margin: auto 0;
+}
+
+.fb-card .fb-details #acads {
+    width: 90px;
+    border: 1px solid #54a0ff;
+    background-color: rgba(84, 160, 255, 0.3);
+}
+
+.fb-card .fb-details #genreq {
+    border: 1px solid #ff9f43;
+    background-color: rgba(255, 159, 67, 0.3);
+}
+
+.fb-card .fb-details #events {
+    width: 60px;
+    border: 1px solid #5f27cd;
+    background-color: rgba(95, 39, 205, 0.3);
+}
+
+.fb-card .fb-details .fb-rating {
+    font-size: 15px;
+    padding: 15px 0 5px 0;
+}
+
+.fb-card .fb-details .fb-rating i {
+    font-size: 20px;
+    color: #576574;
+    margin: 0 5px;
+}
+
+.fb-card .fb-details .fb-msg {
+    margin-bottom: 5px;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+#sidebar {
+    position: absolute;
+    top: 75px;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    background-color: antiquewhite;
+    z-index: 1000;
+}
