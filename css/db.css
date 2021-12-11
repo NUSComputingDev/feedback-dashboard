@@ -86,6 +86,12 @@ html, body {
     border: 1px solid lightgray;
 }
 
+.fb-card:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
 .fb-card .fb-details {
     width: 310px;
     height: 85%;
