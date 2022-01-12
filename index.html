@@ -22,15 +22,67 @@
                 <img src="assets/google-png.png" alt="google" id="glogo">
                 <p>Continue with GSuite</p>
             </div>
+            <p id="error-msg"></p>
             <p id="seg-msg"><i class="fas fa-info-circle"></i> Issues logging in? Contact your IT Sec!</p>
         </div>
     </body>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+        import { getDatabase, get, onValue, child, ref, set, push } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCn9v6eXCTzJw7z_OHfpH4NEOw8mEnU62g",
+            authDomain: "mc-feedback.firebaseapp.com",
+            databaseURL: "https://mc-feedback-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "mc-feedback",
+            storageBucket: "mc-feedback.appspot.com",
+            messagingSenderId: "821071166410",
+            appId: "1:821071166410:web:e2d3283e7b87b590eced33"
+        }
+
+        console.log("app loaded")
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig)
         const signinBtn = document.getElementById("signin")
+        const errorBox = document.getElementById('error-msg')
+
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            'login_hint': 'stevejobs@nuscomputing.com'
+        });
 
         signinBtn.addEventListener("click", () => {
-            window.location.href = "dashboard.html"
+            const auth = getAuth();
+            signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                console.log(user)
+                if (user !== undefined) {
+                    window.location.href = "dashboard.html"
+                } 
+                // ...
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+
+                errorBox.innerHTML = "Something went wrong. Try Again!!"
+            });            
         })
     </script>
 </html>

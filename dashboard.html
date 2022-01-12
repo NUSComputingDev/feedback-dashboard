@@ -20,8 +20,8 @@
             </div>
 
             <div id="cur-user">
-                <div id="prof-pic"></div>
-                <p id="cur-username">Xiong Jingya</p>
+                <p id="logout">Logout</p>
+                <!-- <p id="cur-username"></p> -->
             </div>
         </div>
 
@@ -50,6 +50,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
         import { getDatabase, get, onValue, child, ref, set, push } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+        import { getAuth, signOut, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -102,7 +103,7 @@
                 "gen-queries": "General Queries",
                 "gen-requests": "General Requests",
                 "acads": "Academics",
-                "merch": "Merchandise/SOC Store",
+                "merch": "Merchandise",
                 "events": "Events",
                 "elections-recruitment": "Recruitment"
             }
@@ -111,8 +112,6 @@
         }
 
         Card.prototype.addCard = function() {
-            console.log(this.logs)
-            
             var cardBox = document.createElement('div')
             cardBox.classList += "fb-card"
 
@@ -181,6 +180,8 @@
         console.log("app loaded")
 
         const playground = document.getElementById("playground")
+        // const curUser = document.getElementById('cur-username')
+        const logout = document.getElementById('logout')
 
         function loadFeedback() {
             const feedbackRef = ref(database, '/24MC/feedback/')
@@ -193,11 +194,28 @@
                     var card = new Card(child)
                     card.addCard()
                 })
-            })            
+            })
         }
 
         loadFeedback()
 
+        // const auth = getAuth()
+        // const user = auth.currentUser
+
+        // if (user !== null) {
+        //     const displayName = user.displayName;
+        //     curUser.innerHTML = displayName
+        //     const email = user.email;
+        // } 
+
+        logout.addEventListener('click', () => {
+            const auth = getAuth();
+            signOut(auth).then(() => {
+                window.location.href = "index.html"
+            }).catch((error) => {
+                console.log(error)
+            })
+        })
 
     </script>
 </html>
