@@ -11,7 +11,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/db.css">
-
     </head>
 
     <body>
@@ -27,7 +26,7 @@
         </div>
 
         <div id="playground">
-            <div class="fb-card">
+            <!-- <div class="fb-card">
                 <div class="fb-details">
                     <p class="fb-rating"><b>Rating:</b> <i class="far fa-meh"></i></p>
                     <p class="fb-msg">
@@ -43,45 +42,162 @@
                     <button class="fb-done">Mark as done</button>
                     <button class="fb-delete">Archive</button>
                 </div>
-            </div>
-
-            <div class="fb-card">
-                <div class="fb-details">
-                    <p class="fb-rating"><b>Rating:</b> <i class="far fa-grin-beam"></i></p>
-                    <p class="fb-msg">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <p class="fb-email"><b>From:</b> <a href="mailto:jimmy.chua@gmail.com">jimmy.chua@gmail.com</a></p>
-                    <div class="fb-topic" id="acads">
-                        <span class="fb-topic-cat">Academics</span>
-                    </div>
-                </div>
-
-                <div class="fb-options">
-                    <button class="fb-done">Mark as done</button>
-                    <button class="fb-delete">Archive</button>
-                </div>
-            </div>
-
-            <div class="fb-card">
-                <div class="fb-details">
-                    <p class="fb-rating"><b>Rating:</b> <i class="far fa-sad-tear"></i></p>
-                    <p class="fb-msg">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <p class="fb-email"><b>From:</b> <a href="mailto:ladygaga@hotmail.com">ladygaga@hotmail.com</a></p>
-                    <div class="fb-topic" id="events">
-                        <span class="fb-topic-cat">Events</span>
-                    </div>
-                </div>
-
-                <div class="fb-options">
-                    <button class="fb-done">Mark as done</button>
-                    <button class="fb-delete">Archive</button>
-                </div>
-            </div>
+            </div> -->
         </div>
-
-        <!-- <div id="sidebar"></div> -->
     </body>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+        import { getDatabase, get, onValue, child, ref, set, push } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCn9v6eXCTzJw7z_OHfpH4NEOw8mEnU62g",
+            authDomain: "mc-feedback.firebaseapp.com",
+            databaseURL: "https://mc-feedback-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "mc-feedback",
+            storageBucket: "mc-feedback.appspot.com",
+            messagingSenderId: "821071166410",
+            appId: "1:821071166410:web:e2d3283e7b87b590eced33"
+        }
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig)
+        const database = getDatabase(app)
+        
+        function Card(logs) {
+            this.logs = logs
+        }
+
+        function assignColor(cat) {
+            var table = {
+                "sugg-fb": "sugg-fb",
+                "gen-queries": "genque",
+                "gen-requests": "genreq",
+                "acads": "acads",
+                "merch": "merch",
+                "events": "events",
+                "elections-recruitment": "elections-recruitment"
+            }
+            return table[cat]
+        }
+
+        function assignRating(rating) {
+            var table = {
+                1: `<i class="far fa-sad-tear"></i>`,
+                2: `<i class="far fa-meh"></i>`,
+                3: `<i class="far fa-meh-blank"></i>`,
+                4: `<i class="far fa-smile"></i>`,
+                5: `<i class="far fa-grin-beam"></i>`,
+            }
+            return table[rating]
+        }
+
+        function assignCategory(cat) {
+            var table = {
+                "sugg-fb": "Suggestions",
+                "gen-queries": "General Queries",
+                "gen-requests": "General Requests",
+                "acads": "Academics",
+                "merch": "Merchandise/SOC Store",
+                "events": "Events",
+                "elections-recruitment": "Recruitment"
+            }
+
+            return table[cat]
+        }
+
+        Card.prototype.addCard = function() {
+            console.log(this.logs)
+            
+            var cardBox = document.createElement('div')
+            cardBox.classList += "fb-card"
+
+            var cardDetails = document.createElement('div')
+            cardDetails.classList += 'fb-details'
+
+            var fbRating = document.createElement('p')
+            fbRating.classList += 'fb-rating'
+            fbRating.innerHTML = "<b>Rating:</b> " + assignRating(this.logs['rating'])
+
+            var fbMsg = document.createElement('p')
+            fbMsg.classList += 'fb-msg'
+            fbMsg.innerHTML = this.logs['msg']
+
+            var fbEmail = document.createElement('p')
+            fbEmail.classList += 'fb-email'
+            fbEmail.innerHTML = this.logs['email'] === undefined ? "<b>From: </b> N/A" : "<b>From: </b> " + this.logs['email']
+
+            var fbTopic = document.createElement('p')
+            fbTopic.classList += 'fb-topic'
+            fbTopic.id = assignColor(this.logs['category'])
+
+            var span = document.createElement('span')
+            span.classList += 'fb-topic-cat'
+            span.innerHTML = assignCategory(this.logs['category'])
+            fbTopic.appendChild(span)
+
+            cardDetails.appendChild(fbRating)
+            cardDetails.appendChild(fbMsg)
+            cardDetails.appendChild(fbEmail)
+            cardDetails.appendChild(fbTopic)
+
+            var cardOptions = document.createElement('div')
+            cardOptions.classList += 'fb-options'
+
+            var doneBtn = document.createElement('button')
+            doneBtn.classList += 'fb-done'
+            doneBtn.innerHTML = "Mark as done"
+
+            var archiveBtn = document.createElement('button')
+            archiveBtn.classList += 'fb-delete'
+            archiveBtn.innerHTML = "Archive"
+
+            cardOptions.appendChild(doneBtn)
+            cardOptions.appendChild(archiveBtn)
+
+            /**
+             *  div.fb-card
+             *      div.fb-details
+             *          p.fb-rating
+             *          p.fb-msg
+             *          p.fb-email
+             *          div.fb-topic
+             *              span.fb-topic-cat
+             *      div.fb-options
+             *          btn.fb-done
+             *          btn.fb-archive            
+             */
+
+
+            cardBox.appendChild(cardDetails)
+            cardBox.appendChild(cardOptions)
+            playground.appendChild(cardBox)
+        }
+
+        console.log("app loaded")
+
+        const playground = document.getElementById("playground")
+
+        function loadFeedback() {
+            const feedbackRef = ref(database, '/24MC/feedback/')
+            get(feedbackRef).then((snapshot) => {
+                const data = snapshot.val()
+                const ids = Object.keys(data)
+                const logs = Object.values(data)
+                
+                logs.forEach(child => {
+                    var card = new Card(child)
+                    card.addCard()
+                })
+            })            
+        }
+
+        loadFeedback()
+
+
+    </script>
 </html>

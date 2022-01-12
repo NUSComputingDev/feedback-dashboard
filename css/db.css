@@ -176,10 +176,34 @@ html, body {
     background-color: rgba(255, 159, 67, 0.3);
 }
 
+.fb-card .fb-details #genque {
+    border: 1px solid #ff9f43;
+    background-color: rgba(255, 159, 67, 0.3);
+}
+
 .fb-card .fb-details #events {
     width: 60px;
     border: 1px solid #5f27cd;
     background-color: rgba(95, 39, 205, 0.3);
+}
+
+.fb-card .fb-details #sugg-fb {
+    width: 60px;
+    border: 1px solid #54a0ff;
+    background-color: rgba(46, 134, 222, 0.3);
+}
+
+.fb-card .fb-details #events {
+    width: 60px;
+    border: 1px solid #ff9ff3;
+    background-color: rgba(243, 104, 224, 0.3);
+}
+
+.fb-card .fb-details #merch {
+    width: 60px;
+    border: 1px solid #576574;
+    color: white;
+    background-color: rgba(34, 47, 62, 0.3);
 }
 
 .fb-card .fb-details .fb-rating {
