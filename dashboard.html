@@ -129,7 +129,7 @@
 
             var fbEmail = document.createElement('p')
             fbEmail.classList += 'fb-email'
-            fbEmail.innerHTML = this.logs['email'] === undefined ? "<b>From: </b> N/A" : "<b>From: </b> " + this.logs['email']
+            fbEmail.innerHTML = this.logs['email'] === undefined ? "<b>From: </b> N/A" : "<b>From: </b> " + `<a href="mailto:${this.logs['email']}">${this.logs['email']}</a>`
 
             var fbTopic = document.createElement('p')
             fbTopic.classList += 'fb-topic'
