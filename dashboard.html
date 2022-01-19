@@ -182,6 +182,7 @@
                 console.log(updatedLogs)
                 set(feedbackRef, updatedLogs).then(() => {
                     window.alert(`Selected feedback has been archived!!`)
+                    playground.removeChild(cardBox)
                 })
             })
 
