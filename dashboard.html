@@ -16,7 +16,8 @@
     <body>
         <div id="header">
             <div id="logo">
-                <p id="logo-text">mcf.db</p>
+                <img src="assets/logo_white.png">
+                <!-- <p id="logo-text">mcf.db</p> -->
             </div>
 
             <div id="cur-user">
@@ -147,15 +148,44 @@
             var cardOptions = document.createElement('div')
             cardOptions.classList += 'fb-options'
 
-            var doneBtn = document.createElement('button')
-            doneBtn.classList += 'fb-done'
-            doneBtn.innerHTML = "Mark as done"
+            var assignBtn = document.createElement('button')
+            assignBtn.classList += 'fb-done'
+            assignBtn.innerHTML = "Assign"
+
+            assignBtn.addEventListener('click', () => {
+                console.log("Assign to ...")
+                var body = "Hey!\n\nWe recently received this message via our feedback channel:\n\n" 
+                        + `\"${this.logs['msg']}\"` + "\n\nWe believe you're the best person to handle this.\n\nBest regards!"
+
+                var title = "Re: Assignment of ComClub Feedback"
+
+                let email = window.prompt('Enter a destination email within NUS Computing Club: ')
+                
+                if (email.length > 0 && email.includes("@")) {
+                    window.open(`mailto:${email}?subject=${title}&body=${encodeURIComponent(body)}`)
+                } else {
+                    window.alert("You have provided an invalid email. Please try again!")
+                }
+            })
 
             var archiveBtn = document.createElement('button')
-            archiveBtn.classList += 'fb-delete'
+            archiveBtn.classList += 'fb-archive'
             archiveBtn.innerHTML = "Archive"
 
-            cardOptions.appendChild(doneBtn)
+            archiveBtn.addEventListener('click', () => {
+                console.log("Archiving " + this.logs['msg'])
+
+                const feedbackRef = ref(database, `/24MC/feedback/${this.logs['fid']}/`)
+                var updatedLogs = this.logs
+                updatedLogs['status'] = 'archived'
+
+                console.log(updatedLogs)
+                set(feedbackRef, updatedLogs).then(() => {
+                    window.alert(`Feedback ${updatedLogs['fid']} has been archived!!`)
+                })
+            })
+
+            cardOptions.appendChild(assignBtn)
             cardOptions.appendChild(archiveBtn)
 
             /**
@@ -167,8 +197,8 @@
              *          div.fb-topic
              *              span.fb-topic-cat
              *      div.fb-options
-             *          btn.fb-done
-             *          btn.fb-archive            
+             *          btn.fb-archive
+             *          btn.fb-assign
              */
 
 
@@ -191,8 +221,10 @@
                 const logs = Object.values(data)
                 
                 logs.forEach(child => {
-                    var card = new Card(child)
-                    card.addCard()
+                    if (child['status'] === 'active') {
+                        var card = new Card(child)
+                        card.addCard()
+                    }
                 })
             })
         }
